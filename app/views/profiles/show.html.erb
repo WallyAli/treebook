@@ -1,0 +1,8 @@
+
+<p> All Statuses for <%= @user.profile_name %></p>
+
+<% if @statuses %>
+	<% @statuses.each do |status| %>
+		<%= status.content %>
+	<% end %>
+<% end %>

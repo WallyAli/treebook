@@ -5,7 +5,7 @@ class StatusesController < ApplicationController
   # GET /statuses
   # GET /statuses.json
   def index
-    @statuses = Status.all
+    @statuses = Status.all 
   end
 
   # GET /statuses/1
@@ -25,31 +25,22 @@ class StatusesController < ApplicationController
   # POST /statuses
   # POST /statuses.json
   def create
-    @status = Status.new(status_params)
-
-    respond_to do |format|
-      if @status.save
-        format.html { redirect_to @status, notice: 'Status was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @status }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @status.errors, status: :unprocessable_entity }
-      end
+    @status = current_user.statuses.new(status_params)
+    if @status.save
+        redirect_to @status, notice: 'Status was successfully created.' 
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /statuses/1
   # PATCH/PUT /statuses/1.json
   def update
-    respond_to do |format|
       if @status.update(status_params)
-        format.html { redirect_to @status, notice: 'Status was successfully updated.' }
-        format.json { head :no_content }
+         redirect_to @status, notice: 'Status was successfully updated.' 
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @status.errors, status: :unprocessable_entity }
+        render action: 'edit' 
       end
-    end
   end
 
   # DELETE /statuses/1
@@ -73,3 +64,5 @@ class StatusesController < ApplicationController
       params.require(:status).permit(:user_id, :content)
     end
 end
+
+
